@@ -1,62 +1,3 @@
-// 'use strict';
-
-
-// let mainpic = document.getElementById('maindata');
-// let arrObj = []
-// $(function(){
-//   function X(value){
-//     this.name = value.title;
-//     this.src = value.image_url;
-//     this.detals = value.description;
-//     this.keyword=value.keyword;
-//     // this.horn=value.horn;
-//     arrObj.push(this);
-//   }
-//   $.ajax('./data/page-1.json').then(jdata=>{
-//     // console.log(jdata);
-//       jdata.forEach((iteam) => {
-//         //console.log(iteam);
-//         let newpic = new X(iteam);
-//         newpic.render();
-//         //    console.log(newpic);
-//       });
-//     });
-
-//     let newarry=[];
-//     X.prototype.render = function () {
-//       if (!(newarry.includes(this.keyword))) {
-//         newarry.push(this.keyword);
-//           $('select').append(`
-//           <option>${this.keyword}</option>
-//       `);
-//       }
-//       let PHOTOSHOW = $('#gh').first().clone();
-//       PHOTOSHOW.find('h2').text(this.name);
-//       PHOTOSHOW.find('img').attr('src', this.src );
-//       PHOTOSHOW.find('p').text(this.detals);
-//         $('main').append(PHOTOSHOW);
-//     }
-
-//     $('select').on('change', function (event) {
-//       $('div').hide();
-
-//       $('#maindata').html('<div id="gh"><h2></h2><img src="" alt=""><p></p></div>');
-
-//       let selectValue = event.target.value;
-  
-//           $.ajax('./data/page-1.json').then(data => {
-           
-//             data.forEach((item) => {
-//           if (item.keyword === selectValue) {
-//             let newI = new X(item);
-//             newI.render();
-//         }
-//             })
-//         })
-//   })
-// })
-
-
 
 'use strict';
 let newarry=[];
@@ -72,6 +13,34 @@ function X(value){
   newarry.push(this);
 }
 
+
+    
+
+X.prototype.render = function () {
+  let template = $('#template-img').html();
+  let k = Mustache.render(template, this);
+  let newAnimalDiv = $('<div></div>');
+  newAnimalDiv.addClass(`${this.keyword} X`);
+  $(newAnimalDiv).append(k);
+  $('main').append(newAnimalDiv);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // git data from json
 $.ajax('./data/page-1.json').then((data) => {
   data.forEach((animals) => {
@@ -82,17 +51,17 @@ $.ajax('./data/page-1.json').then((data) => {
 });
 
 //render  //
-X.prototype.render = function() {
-  let animal = $('#photo-template').clone();
-  animal.find('h2').text(this.name);
-  animal.find('img').attr('src',`${this.src}`);
-  animal.addClass( this.keyword );
-  animal.find('p').text(this.detals);
-  $('main').append(animal);
+  X.prototype.render = function() {
+//    let animal = $('#photo-template').clone();
+//    animal.find('h2').text(this.name);
+//   animal.find('img').attr('src',`${this.src}`);
+//    animal.addClass( this.keyword );
+//   animal.find('p').text(this.detals);
+//    $('main').append(animal);
 
-  this.optionRender();
+   this.optionRender();
 
-};
+ };
 
 
 // render options  //
