@@ -1,51 +1,117 @@
+// 'use strict';
+
+
+// let mainpic = document.getElementById('maindata');
+// let arrObj = []
+// $(function(){
+//   function X(value){
+//     this.name = value.title;
+//     this.src = value.image_url;
+//     this.detals = value.description;
+//     this.keyword=value.keyword;
+//     // this.horn=value.horn;
+//     arrObj.push(this);
+//   }
+//   $.ajax('./data/page-1.json').then(jdata=>{
+//     // console.log(jdata);
+//       jdata.forEach((iteam) => {
+//         //console.log(iteam);
+//         let newpic = new X(iteam);
+//         newpic.render();
+//         //    console.log(newpic);
+//       });
+//     });
+
+//     let newarry=[];
+//     X.prototype.render = function () {
+//       if (!(newarry.includes(this.keyword))) {
+//         newarry.push(this.keyword);
+//           $('select').append(`
+//           <option>${this.keyword}</option>
+//       `);
+//       }
+//       let PHOTOSHOW = $('#gh').first().clone();
+//       PHOTOSHOW.find('h2').text(this.name);
+//       PHOTOSHOW.find('img').attr('src', this.src );
+//       PHOTOSHOW.find('p').text(this.detals);
+//         $('main').append(PHOTOSHOW);
+//     }
+
+//     $('select').on('change', function (event) {
+//       $('div').hide();
+
+//       $('#maindata').html('<div id="gh"><h2></h2><img src="" alt=""><p></p></div>');
+
+//       let selectValue = event.target.value;
+  
+//           $.ajax('./data/page-1.json').then(data => {
+           
+//             data.forEach((item) => {
+//           if (item.keyword === selectValue) {
+//             let newI = new X(item);
+//             newI.render();
+//         }
+//             })
+//         })
+//   })
+// })
+
+
+
 'use strict';
-$.ajax('../data/page-1.json').then(jdata=>{
-// console.log(jdata);
-  jdata.forEach((iteam) => {
-    //console.log(iteam);
-    let newpic = new x(iteam);
-    newpic.render();
-    //    console.log(newpic);
-  });
-});
-function x(value){
+let newarry=[];
+let optionarr=[];
+
+// construct function
+function X(value){
   this.name = value.title;
   this.src = value.image_url;
   this.detals = value.description;
   this.keyword=value.keyword;
   this.horn=value.horn;
-  // newarry.push(this.keyword);
+  newarry.push(this);
 }
-x.prototype.render = function(){
-  $('#gh').append(
-    `<h2> ${this.name}</h2>`
-  );
-  $('#gh').append(
-    `<img src="${this.src}"</img>`
-  );
-  $('#gh').append(
-    `<p>${this.detals}"</p>`
-  );
-};
-// let newarry=[];
-// data.forEach(val=>{
-//     if(!newarry.includes(val.keyword)){
-//         newarry.push(val.keyword);
-//         // $('select').append(`<option> ${val.keyword}</option>`)
-//     }
-// }
-let newarry=[];
-$('#select').on('change',function(event){
-  $('div').hide();
-  let slectedItem= event.target.value;
-  //   newarry.push(slectedItem);
-  console.log(slectedItem);
-  newarry.forEach(val=>{
-    if(val.keyword=== slectedItem ){
-      let newdata= new x(val);
-      let render1= newdata.render();
-      $('#span').append(render1);
-      newarry.push(render1);
-    }
+
+// git data from json
+$.ajax('./data/page-1.json').then((data) => {
+  data.forEach((animals) => {
+    let title = new X(animals);
+    // console.log(title);
+    title.render();
   });
 });
+
+//render  //
+X.prototype.render = function() {
+  let animal = $('#photo-template').clone();
+  animal.find('h2').text(this.name);
+  animal.find('img').attr('src',`${this.src}`);
+  animal.addClass( this.keyword );
+  animal.find('p').text(this.detals);
+  $('main').append(animal);
+
+  this.optionRender();
+
+};
+
+
+// render options  //
+X.prototype.optionRender=function() {
+  let option = `<option>${this.keyword}</option>`;
+  if(!optionarr.includes(this.keyword)){
+    newarry.push(this.keyword);
+    $('.keyword').append(option);
+  }
+};
+
+
+
+//filter//
+$( '.keyword' ).change( ( e ) => {
+  $( 'div' ).hide();
+  let targetValue = e.target.value;
+  $( `.${targetValue}` ).show();
+  if( targetValue === 'default' ){
+     $( 'div' ).show();
+  }
+} );
