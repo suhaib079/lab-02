@@ -58,6 +58,6 @@ footer {
     font-size: larger;
     font-weight: bolder;
 }
-div:first-child {
+  /* div:first-child {
     display: none;
-  }
+  }   */
